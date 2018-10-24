@@ -1,0 +1,79 @@
+&global_settings
+    echo_namelists = 0
+    exact_normalized_emittance = 1
+&end
+
+&run_setup
+	lattice = %s.lte
+	default_order = 3
+	use_beamline = CHICANE
+	p_central_mev = 150
+	sigma = %s.sig
+	centroid = %s.cen
+	final = %s.fin
+	magnets = %s.mag
+	acceptance = %s.acc
+	output = %s.out
+	losses = %s.lost
+	parameters = %s.par
+	element_divisions = 1
+&end
+
+&twiss_output
+	matched = 0,
+	output_at_each_step=0,
+	alpha_x = 5
+	beta_x  = 30
+	alpha_y = 2
+	beta_y  = 30
+	final_values_only=0,
+	filename = %s.twi
+&end
+
+&floor_coordinates
+    filename = %s.flr
+    include_vertices = 1
+    magnet_centers = 1
+&end
+
+&matrix_output
+	full_matrix_only=1
+	SDDS_output_order=3
+	output_at_each_step = 0
+	SDDS_output=%s.mat
+&end
+
+&run_control
+	n_steps = 1
+&end
+
+&optimization_setup
+    mode = "minimize", method = "simplex",
+    target = 0,
+    tolerance = 1e-14, n_passes = 3, n_evaluations = 1500, n_restarts = 5, log_file = "/dev/tty",
+    output_sparsing_factor = 100
+&end
+
+&bunched_beam
+    n_particles_per_bunch =  100000
+    use_twiss_command_values = 1
+    emit_nx = 1e-6
+    emit_ny = 1e-6
+    sigma_s  = 200e-06
+    sigma_dp = 0.001
+    momentum_chirp = 0
+    distribution_type[0] ="gaussian"
+    distribution_type[1] ="gaussian"
+    distribution_type[2] ="gaussian"
+    distribution_cutoff[0] = 5
+    distribution_cutoff[1] = 5
+    distribution_cutoff[2] = 5
+    symmetrize = 1
+    enforce_rms_values[0] = 1
+    enforce_rms_values[1] = 1
+    enforce_rms_values[2] = 1
+&end
+
+&track &end
+
+&stop &end

@@ -1,0 +1,43 @@
+! Settings for CSR
+% 0   sto with_CSR
+% 0   sto with_ISR
+% 200 sto bin_num
+% 100 sto num_CSR_kicks
+% 2   sto order_integration
+% 10  sto output_interval
+% 3 sto SG_order
+% 20 sto SG_width
+
+Q:    charge, total = 500e-12
+
+D1: CSRCSBEND,L=0.50832,ANGLE=-0.314159,E2=-0.314159, &
+       N_KICKS = "num_CSR_kicks", BINS = "bin_num",      &
+       ISR = "with_ISR", CSR = "with_CSR",               &
+       OUTPUT_INTERVAL = "output_interval",              &
+       INTEGRATION_ORDER = "order_integration", SG_ORDER="SG_order", SG_HALFWIDTH="SG_width"
+
+D2: CSRCSBEND,L=0.50832,ANGLE=0.314159,E1=0.314159,   &
+       N_KICKS = "num_CSR_kicks", BINS = "bin_num",      &
+       ISR = "with_ISR", CSR = "with_CSR",               &
+       OUTPUT_INTERVAL = "output_interval",              &
+       INTEGRATION_ORDER = "order_integration", SG_ORDER="SG_order", SG_HALFWIDTH="SG_width"
+
+D3: CSRCSBEND,L=0.50832,ANGLE=0.314159,E2=0.314159,   &
+       N_KICKS = "num_CSR_kicks", BINS = "bin_num",      &
+       ISR = "with_ISR", CSR = "with_CSR",               &
+       OUTPUT_INTERVAL = "output_interval",              &
+       INTEGRATION_ORDER = "order_integration", SG_ORDER="SG_order", SG_HALFWIDTH="SG_width"
+
+D4: CSRCSBEND,L=0.50832,ANGLE=-0.314159,E1=-0.314159, &
+       N_KICKS = "num_CSR_kicks", BINS = "bin_num",      &
+       ISR = "with_ISR", CSR = "with_CSR",               &
+       OUTPUT_INTERVAL = "output_interval",              &
+       INTEGRATION_ORDER = "order_integration", SG_ORDER="SG_order", SG_HALFWIDTH="SG_width"
+
+"L1": CSRDRIFT, USE_STUPAKOV = 1,L=0.525731, CSR="with_CSR", N_KICKS ="num_CSR_kicks"
+"L2": CSRDRIFT, USE_STUPAKOV = 1,L=0.963000, CSR="with_CSR", N_KICKS="num_CSR_kicks"
+
+START: WATCH,MODE="COORD",FILENAME="START.sdds"
+END:   WATCH,MODE="COORD",FILENAME="END.sdds"
+
+CHICANE: LINE=(Q, START, D1, L1, D2, L2, D3, L1, D4, END)
